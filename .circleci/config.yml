@@ -10,3 +10,9 @@ jobs:
       - matlab/install
       - matlab/run-command:
           command: convertToJMeterCSV(runperf('tMatrixLibrary'))
+      - run:
+          wget -q http://mirror.metrocast.net/apache//jmeter/binaries/apache-jmeter-5.3.tgz
+          tar -xf apache-jmeter-5.3.tgz
+          apache-jmeter-5.3/bin/jmeter -g PerformanceTestResult.csv -o jmeter-report
+      - store_artifacts:
+          path: jmeter-report
