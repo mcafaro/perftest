@@ -1,0 +1,17 @@
+version: 2.1
+orbs:
+  matlab: mathworks/matlab@0.1
+jobs:
+  build:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - matlab/install
+      - matlab/run-command:
+          command: convertToJMeterCSV(runperf('tMatrixLibrary'))
+      - run: wget -q http://mirror.metrocast.net/apache//jmeter/binaries/apache-jmeter-5.3.tgz
+      - run: tar -xf apache-jmeter-5.3.tgz
+      - run: apache-jmeter-5.3/bin/jmeter -g PerformanceTestResult.csv -o jmeter-report
+      - store_artifacts:
+          path: jmeter-report
